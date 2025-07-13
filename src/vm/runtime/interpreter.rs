@@ -1,9 +1,13 @@
+use chrono::Utc;
+
 use crate::vm::{
     code::{
-        bytecode::{self, LOAD_NAME},
+        bytecode::{self},
         code_object::CodeObject,
     },
-    object::{HiObject, array_list::ArrayList, hi_list::HiList, hi_string::HiString},
+    object::{
+        HiObject, array_list::ArrayList, hi_list::HiList,
+    },
 };
 
 pub struct Interpreter {
@@ -38,13 +42,50 @@ impl Interpreter {
                 bytecode::LOAD_NAME => _stack.push(HiObject::HiNone),
                 bytecode::CALL_FUNCTION => {
                     let v = _stack.pop();
-                    println!("print called: {:?}", v);
+                    let now = Utc::now();
+                    println!("{} print called: {:?}", now, v);
                 }
                 bytecode::POP_TOP => {
                     _stack.pop();
                 }
                 bytecode::RETURN_VALUE => {
                     _stack.pop();
+                }
+                bytecode::COMPARE_OP => {
+                    let w = _stack.pop();
+                    let v = _stack.pop();
+                    match op_arg {
+                        bytecode::GREATER => {
+                            _stack.push(v.greater(w));
+                        }
+                        bytecode::GREATER_EQUAL => {
+                            _stack.push(v.ge(w));
+                        }
+                        bytecode::LESS => {
+                            _stack.push(v.less(w));
+                        }
+                        bytecode::LESS_EQUAL => {
+                            _stack.push(v.le(w));
+                        }
+                        bytecode::EQUAL => {
+                            _stack.push(v.equal(w));
+                        }
+                        bytecode::NOT_EQUAL => {
+                            _stack.push(v.not_equal(w));
+                        }
+                        _ => {
+                            println!("Unrecognized comparison operator {}", op_arg)
+                        }
+                    };
+                }
+                bytecode::POP_JUMP_IF_FALSE => {
+                    let v = _stack.pop();
+                    if let HiObject::HiFalse = v {
+                        pc += op_arg as usize;
+                    }
+                }
+                bytecode::JUMP_FORWARD => {
+                    pc += op_arg as usize;
                 }
                 _ => {
                     panic!("Unknown op_code: {}", op_code);

@@ -1,12 +1,12 @@
 use core::panic;
-use std::{cell, fs::File, io::Read};
+use std::{fs::File, io::Read};
 
-use chrono::{DateTime, NaiveDateTime};
+use chrono::DateTime;
 
 use crate::vm::{
     code::code_object::CodeObject,
     object::{
-        self, HiObject, array_list::ArrayList, hi_integer::HiInteger, hi_list::HiList,
+        HiObject, array_list::ArrayList, hi_integer::HiInteger, hi_list::HiList,
         hi_string::HiString,
     },
 };

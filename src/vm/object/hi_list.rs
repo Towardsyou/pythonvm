@@ -20,7 +20,30 @@ impl HiList {
         self._value.push(o);
     }
 
+    pub fn print(&self) {
+        println!("{:?}", self._value);
+    }
+
     pub fn set(&mut self, index: usize, o: HiObject) {
         self._value.set(index, o);
+    }
+
+    pub fn greater(&self, o: HiObject) -> HiObject {
+        todo!()
+    }
+    pub fn less(&self, o: HiObject) -> HiObject {
+        todo!()
+    }
+    pub fn le(&self, o: HiObject) -> HiObject {
+        todo!()
+    }
+    pub fn ge(&self, o: HiObject) -> HiObject {
+        todo!()
+    }
+    pub fn equal(&self, o: HiObject) -> HiObject {
+        todo!()
+    }
+    pub fn not_equal(&self, o: HiObject) -> HiObject {
+        todo!()
     }
 }

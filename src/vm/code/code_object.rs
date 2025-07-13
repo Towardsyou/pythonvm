@@ -1,4 +1,4 @@
-use crate::vm::object::{HiObject, array_list::ArrayList, hi_list::HiList, hi_string::HiString};
+use crate::vm::object::{HiObject, hi_list::HiList, hi_string::HiString};
 
 #[derive(Clone, Debug)]
 pub struct CodeObject {
@@ -61,5 +61,24 @@ impl CodeObject {
             _lineno: _lineno,
             _notable: _notable,
         }
+    }
+
+    pub fn greater(&self, o: HiObject) -> HiObject {
+        HiObject::HiTrue
+    }
+    pub fn less(&self, o: HiObject) -> HiObject {
+        HiObject::HiTrue
+    }
+    pub fn le(&self, o: HiObject) -> HiObject {
+        HiObject::HiTrue
+    }
+    pub fn ge(&self, o: HiObject) -> HiObject {
+        HiObject::HiTrue
+    }
+    pub fn equal(&self, o: HiObject) -> HiObject {
+        HiObject::HiTrue
+    }
+    pub fn not_equal(&self, o: HiObject) -> HiObject {
+        HiObject::HiTrue
     }
 }

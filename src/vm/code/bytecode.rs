@@ -57,3 +57,15 @@ pub const STORE_FAST: u8 = 125; /* Local variable number */
 
 pub const CALL_FUNCTION: u8 = 131;
 pub const MAKE_FUNCTION: u8 = 132;
+
+pub const LESS: u8 = 0;
+pub const LESS_EQUAL: u8 = 1;
+pub const EQUAL: u8 = 2;
+pub const NOT_EQUAL: u8 = 3;
+pub const GREATER: u8 = 4;
+pub const GREATER_EQUAL: u8 = 5;
+pub const IN: u8 = 6;
+pub const NOT_IN: u8 = 7;
+pub const IS: u8 = 8;
+pub const IS_NOT: u8 = 9;
+pub const EXC_MATCH: u8 = 10;
