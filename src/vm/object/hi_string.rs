@@ -35,7 +35,12 @@ impl HiString {
         todo!()
     }
     pub fn equal(&self, o: HiObject) -> HiObject {
-        todo!()
+        if let HiObject::HiString(s) = o {
+            if self._value == s._value {
+                return HiObject::HiTrue;
+            }
+        }
+        return HiObject::HiFalse;
     }
     pub fn not_equal(&self, o: HiObject) -> HiObject {
         todo!()

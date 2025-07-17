@@ -5,9 +5,7 @@ use crate::vm::{
         bytecode::{self},
         code_object::CodeObject,
     },
-    object::{
-        HiObject, array_list::ArrayList, hi_list::HiList,
-    },
+    object::{HiObject, array_list::ArrayList, hi_list::HiList, hi_map::Map},
 };
 
 pub struct Interpreter {
@@ -29,7 +27,8 @@ impl Interpreter {
 
         let mut _stack = ArrayList::new(code._stack_size as usize);
         let _consts = code._consts;
-        println!("{:?}", code._bytecodes);
+        let names = code._names;
+        let mut locals = Map::new();
 
         while pc < code_length {
             let op_code = code._bytecodes.value()[pc];
@@ -39,7 +38,16 @@ impl Interpreter {
 
             match op_code {
                 bytecode::LOAD_CONST => _stack.push(_consts.get(op_arg as usize)),
-                bytecode::LOAD_NAME => _stack.push(HiObject::HiNone),
+                bytecode::LOAD_NAME => {
+                    let v = names.get(op_arg as usize);
+                    let w = locals.get(v);
+                    _stack.push(w);
+                }
+                bytecode::STORE_NAME => {
+                    let v = names.get(op_arg as usize);
+                    let w = _stack.pop();
+                    locals.put(v, w);
+                }
                 bytecode::CALL_FUNCTION => {
                     let v = _stack.pop();
                     let now = Utc::now();
@@ -78,19 +86,28 @@ impl Interpreter {
                         }
                     };
                 }
+                bytecode::BINARY_ADD => {
+                    let v = _stack.pop();
+                    let w = _stack.pop();
+                    _stack.push(v.add(w));
+                }
                 bytecode::POP_JUMP_IF_FALSE => {
                     let v = _stack.pop();
                     if let HiObject::HiFalse = v {
-                        pc += op_arg as usize;
+                        pc = op_arg as usize;
                     }
                 }
                 bytecode::JUMP_FORWARD => {
                     pc += op_arg as usize;
+                }
+                bytecode::JUMP_ABSOLUTE => {
+                    pc = op_arg as usize;
                 }
                 _ => {
                     panic!("Unknown op_code: {}", op_code);
                 }
             }
         }
+        println!("Execution finished")
     }
 }

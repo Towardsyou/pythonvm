@@ -3,6 +3,7 @@ use crate::vm::code::code_object;
 pub mod array_list;
 pub mod hi_integer;
 pub mod hi_list;
+pub mod hi_map;
 pub mod hi_string;
 
 #[derive(Clone, Debug)]
@@ -91,6 +92,18 @@ impl HiObject {
             HiObject::HiNone => HiObject::HiFalse,
             HiObject::HiTrue => hi_integer::HiInteger::new(1).le(o),
             HiObject::HiFalse => hi_integer::HiInteger::new(0).le(o),
+        }
+    }
+
+    pub fn add(&self, o: HiObject) -> HiObject {
+        match self {
+            HiObject::HiString(hi_string) => todo!(),
+            HiObject::HiInteger(hi_integer) => hi_integer.add(o),
+            HiObject::HiList(hi_list) => todo!(),
+            HiObject::HiNone => todo!(),
+            HiObject::HiTrue => todo!(),
+            HiObject::HiFalse => todo!(),
+            HiObject::HiCode(code_object) => panic!("can't add code object"),
         }
     }
 }

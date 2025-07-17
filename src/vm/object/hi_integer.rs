@@ -77,4 +77,13 @@ impl HiInteger {
         }
         panic!("Compare between HiInterger and {:?}", o.clone());
     }
+
+    pub fn add(&self, o: HiObject) -> HiObject {
+        if let HiObject::HiInteger(hi) = o {
+            return HiObject::HiInteger(HiInteger {
+                _value: self._value + hi._value,
+            });
+        }
+        panic!("Add between HiInterger and {:?}", o.clone());
+    }
 }

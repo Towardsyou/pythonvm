@@ -298,6 +298,8 @@ impl BinaryFileParser {
                 'R' => {
                     HiObject::HiString(self._string_table.get(self.file_stream.read_int() as usize))
                 }
+                'T' => HiObject::HiTrue,
+                'F' => HiObject::HiFalse,
                 _ => {
                     panic!("Unknown object type: {}", object_type);
                 }
